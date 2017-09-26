@@ -1,0 +1,202 @@
+[gd_scene load_steps=6 format=1]
+
+[ext_resource path="res://game.gd" type="Script" id=1]
+[ext_resource path="res://left_pallete.png" type="Texture" id=2]
+[ext_resource path="res://right_pallete.png" type="Texture" id=3]
+[ext_resource path="res://separator.png" type="Texture" id=4]
+[ext_resource path="res://ball.png" type="Texture" id=5]
+
+[node name="game" type="Node2D"]
+
+script/script = ExtResource( 1 )
+
+[node name="left" type="Sprite" parent="."]
+
+transform/pos = Vector2( 67, 183 )
+texture = ExtResource( 2 )
+
+[node name="Particles2D" type="Particles2D" parent="left"]
+
+config/amount = 20
+config/lifetime = 0.4
+config/process_mode = 1
+config/local_space = false
+params/direction = 0.0
+params/spread = 30.0
+params/linear_velocity = 20.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 2.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+color/color = Color( 0, 1, 0.929688, 1 )
+
+[node name="right" type="Sprite" parent="."]
+
+transform/pos = Vector2( 577, 187 )
+texture = ExtResource( 3 )
+
+[node name="Particles2D1" type="Particles2D" parent="right"]
+
+config/amount = 20
+config/lifetime = 0.4
+config/process_mode = 1
+config/local_space = false
+params/direction = 0.0
+params/spread = 30.0
+params/linear_velocity = 20.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 2.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+color/color = Color( 1, 0, 0.84375, 1 )
+
+[node name="separator" type="Sprite" parent="."]
+
+transform/pos = Vector2( 320, 200 )
+texture = ExtResource( 4 )
+
+[node name="ball" type="Sprite" parent="."]
+
+transform/pos = Vector2( 320, 188 )
+texture = ExtResource( 5 )
+
+[node name="trail" type="Particles2D" parent="ball"]
+
+config/amount = 5
+config/lifetime = 0.5
+config/process_mode = 1
+config/half_extents = Vector2( 3, 3 )
+config/local_space = false
+params/direction = 0.0
+params/spread = 20.0
+params/linear_velocity = 0.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 1.0
+params/initial_angle = 0.0
+params/initial_size = 2.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+
+[node name="HUD" type="Control" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="left_score" type="Label" parent="HUD"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 142.0
+margin/top = 31.0
+margin/right = 182.0
+margin/bottom = 45.0
+text = "0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="right_score" type="Label" parent="HUD"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 487.0
+margin/top = 32.0
+margin/right = 527.0
+margin/bottom = 46.0
+text = "0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="effect" type="Particles2D" parent="."]
+
+transform/pos = Vector2( 320, 188 )
+z/relative = false
+config/amount = 50
+config/lifetime = 0.5
+config/emitting = false
+config/process_mode = 1
+config/explosiveness = 0.5
+params/direction = 0.0
+params/spread = 360.0
+params/linear_velocity = 20.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 3.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+
+[node name="effect_timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 0.4
+one_shot = true
+autostart = true
+
+[node name="camera" type="Camera2D" parent="."]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 320, 201 )
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+[connection signal="timeout" from="effect_timer" to="." method="_on_effect_timer_timeout"]
+
+
