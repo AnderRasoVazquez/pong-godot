@@ -145,10 +145,11 @@ max_lines_visible = -1
 
 [node name="effect" type="Particles2D" parent="."]
 
-transform/pos = Vector2( 320, 188 )
+transform/pos = Vector2( 342, 188 )
 z/relative = false
 config/amount = 50
-config/lifetime = 0.5
+config/lifetime = 2.0
+config/time_scale = 3.0
 config/emitting = false
 config/process_mode = 1
 config/explosiveness = 0.5
@@ -172,14 +173,14 @@ params/anim_initial_pos = 0.0
 [node name="effect_timer" type="Timer" parent="."]
 
 process_mode = 1
-wait_time = 0.4
+wait_time = 0.2
 one_shot = true
 autostart = true
 
 [node name="camera" type="Camera2D" parent="."]
 
 visibility/behind_parent = true
-transform/pos = Vector2( 320, 201 )
+transform/pos = Vector2( 321, 200 )
 anchor_mode = 1
 rotating = false
 current = true
@@ -197,6 +198,15 @@ drag_margin/top = 0.2
 drag_margin/right = 0.2
 drag_margin/bottom = 0.2
 
+[node name="rumble_timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 0.3
+one_shot = true
+autostart = false
+
 [connection signal="timeout" from="effect_timer" to="." method="_on_effect_timer_timeout"]
+
+[connection signal="timeout" from="rumble_timer" to="." method="_on_rumble_timer_timeout"]
 
 

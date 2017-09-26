@@ -10,6 +10,7 @@ onready var label_left = get_node("HUD/left_score")
 onready var label_right = get_node("HUD/right_score")
 onready var explode_effect = get_node("effect")
 onready var effect_timer = get_node("effect_timer")
+onready var rumble_timer = get_node("rumble_timer")
 onready var camera = get_node("camera")
 
 # constant for ball speed for (in pixels/second)
@@ -21,7 +22,8 @@ const PAD_SPEED = 150
 
 var shake_amount = 1.0
 
-var rumble = 0
+var rumble = 3
+var activate_rumble = false
 
 func _ready():
 	randomize()
@@ -43,6 +45,8 @@ func _process(delta):
 		effect_timer.start()
 		explode_effect.set_global_pos(ball_pos)
 		explode_effect.set_emitting(true)
+		activate_rumble = true
+		rumble_timer.start()
 		
 		
 	# Flip, change direction and increase speed when touching pads
@@ -58,6 +62,8 @@ func _process(delta):
 			rumble += 1
 		else:
 			rumble *= 1.1
+		activate_rumble = true
+		rumble_timer.start()
 		
 # Check gameover
 	if (ball_pos.x < 0 or ball_pos.x > screen_size.x): # TODO dividirlo para hacer un score
@@ -89,7 +95,9 @@ func _process(delta):
 		right_pos.y += PAD_SPEED * delta
 	
 	get_node("right").set_pos(right_pos)
-	rumble(rumble)
+	
+	if activate_rumble:
+		rumble(rumble)
 
 
 
@@ -102,5 +110,5 @@ func rumble(rumble):
         rand_range(-rumble, rumble) * shake_amount \
     ))
 
-
-    
+func _on_rumble_timer_timeout():
+	activate_rumble = false
