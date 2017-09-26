@@ -30,6 +30,8 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	screen_size = get_viewport_rect().size
+	label_left.set_pos(Vector2(screen_size.width * 0.25, 50))
+	label_right.set_pos(Vector2(screen_size.width * 0.75, 50))
 	pad_size = get_node("left").get_texture().get_size()
 	set_process(true)
 
