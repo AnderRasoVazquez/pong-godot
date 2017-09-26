@@ -36,7 +36,7 @@ texture = ExtResource( 2 )
 transform/pos = Vector2( 67, 183 )
 texture = ExtResource( 3 )
 
-[node name="Particles2D" type="Particles2D" parent="left"]
+[node name="particles_left" type="Particles2D" parent="left"]
 
 config/amount = 20
 config/lifetime = 0.4
@@ -65,7 +65,7 @@ color/color = Color( 0, 1, 0.929688, 1 )
 transform/pos = Vector2( 577, 187 )
 texture = ExtResource( 4 )
 
-[node name="Particles2D1" type="Particles2D" parent="right"]
+[node name="particles_right" type="Particles2D" parent="right"]
 
 config/amount = 20
 config/lifetime = 0.4

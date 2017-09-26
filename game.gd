@@ -42,7 +42,7 @@ func _process(delta):
 	var left_rect = Rect2( get_node("left").get_pos() - pad_size*0.5, pad_size )
 	var right_rect = Rect2( get_node("right").get_pos() - pad_size*0.5, pad_size )
 	ball_pos += direction * ball_speed * delta
-	if ((ball_pos.y < 0 and direction.y < 0) or (ball_pos.y > screen_size.y and direction.y > 0)):
+	if ((ball_pos.y -5 < 0 and direction.y < 0) or (ball_pos.y +5 > screen_size.y and direction.y > 0)):
 		direction.y = -direction.y
 		effect_timer.start()
 		explode_effect.set_global_pos(ball_pos)
