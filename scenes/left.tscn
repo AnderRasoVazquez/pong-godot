@@ -3,12 +3,11 @@
 [ext_resource path="res://scripts/left.gd" type="Script" id=1]
 [ext_resource path="res://art/left_pallete.png" type="Texture" id=2]
 
-
-
-[sub_resource type="ConvexPolygonShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=1]
 
 custom_solver_bias = 0.0
-points = Vector2Array( -5, -17, 2, -17, 5, -5, 5, 5, 2, 17, -5, 17 )
+radius = 5.01385
+height = 24.2951
 
 [node name="left" type="KinematicBody2D"]
 
