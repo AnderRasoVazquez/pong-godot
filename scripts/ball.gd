@@ -5,7 +5,8 @@ const INITIAL_SPEED = 100
 var vel = Vector2() # pixels/sec
 var acc = 2
 # set this to < 1.0 to demonstrate loss of energy
-var bounce_coefficent = 1.0
+var bounce_coefficent = 1
+var who_hits = "left"
 
 signal ball_collision
 signal collision_with_paddle
@@ -23,6 +24,7 @@ func _fixed_process(delta):
 		if get_collider().is_in_group("platform"):
 			vel += vel * acc * delta
 			emit_signal("collision_with_paddle")
+			who_hits = get_collider().get_name()
 		# find the normal
 		var n = get_collision_normal()
 		# reflect the motion *and* the velocity

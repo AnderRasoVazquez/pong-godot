@@ -10,10 +10,15 @@ onready var rumble_timer = get_node("rumble_timer")
 onready var camera = get_node("camera")
 onready var ball = get_node("ball")
 onready var explosion_container = get_node("explosion_container")
+onready var power_up_container = get_node("power_up_container")
+onready var shield_container = get_node("shield_container")
 onready var separator = get_node("separator")
 onready var explosion = preload("res://scenes/explosion.tscn")
+onready var power_up = preload("res://scenes/power_up.tscn")
+onready var power_up_spawn_timer = get_node("power_up_spawn_timer")
+onready var shield = preload("res://scenes/shield.tscn")
 
-# POWER UPS
+# POWER UP
 # que aparezcan y el que las de que las gane
 # alargar pala
 # escudo para no perder
@@ -28,6 +33,8 @@ var activate_rumble = false
 
 func _ready():
 	randomize()
+	power_up_spawn_timer.set_wait_time(rand_range(5, 10))
+	power_up_spawn_timer.start()
 	ball.connect("ball_collision", self, "_on_ball_collision")
 	ball.connect("collision_with_paddle", self, "_on_collision_with_paddle")
 	screen_size = get_viewport_rect().size
@@ -87,3 +94,28 @@ func _on_collision_with_paddle():
 		sup_lab.set_global_pos(Vector2(ball_pos.x, ball_pos.y))
 	else:
 		sup_lab.set_global_pos(Vector2(ball_pos.x * 0.9, ball_pos.y))
+
+func _on_timer_timeout():
+	var p = power_up.instance()
+	p.connect("power_up_catched", self, "_on_power_up_catched")
+	power_up_container.add_child(p)
+	p.set_pos(Vector2(rand_range(screen_size.x * 0.3, screen_size.x * 0.7),
+						rand_range(screen_size.y * 0.3, screen_size.y * 0.7)))
+	power_up_spawn_timer.set_wait_time(rand_range(20, 40))
+	power_up_spawn_timer.start()
+
+func _on_power_up_catched():
+	# TODO hacer un strategy, este codigo no tiene que estar aqui
+	# power_up use power
+	print("building shield")
+	var s = shield.instance()
+	shield_container.add_child(s)
+	if ball.who_hits == "left":
+		s.set_pos(Vector2(screen_size.x * 0.05, screen_size.y / 2))
+	else:
+		s.set_pos(Vector2(screen_size.x * 0.95, screen_size.y / 2))
+	s.connect("shield_hit", self, "_on_shield_hit")
+
+func _on_shield_hit():
+	print("shield_hit signal catched")
+	ball.vel.x *= -1

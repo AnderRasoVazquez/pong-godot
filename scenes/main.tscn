@@ -31,13 +31,36 @@ extents = Vector2( 324.601, 10 )
 
 script/script = ExtResource( 1 )
 
+[node name="camera" type="Camera2D" parent="."]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 320.943, 197.138 )
+z/z = 1
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
 [node name="background" type="Sprite" parent="."]
 
-transform/pos = Vector2( 318, 190 )
+transform/pos = Vector2( 319.765, 185.478 )
 texture = ExtResource( 2 )
 
 [node name="HUD" type="Control" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -81,6 +104,7 @@ max_lines_visible = -1
 
 [node name="wall_down" type="StaticBody2D" parent="."]
 
+editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 317.445, 409.823 )
@@ -101,6 +125,7 @@ _update_shape_index = 0
 
 [node name="wall_up" type="StaticBody2D" parent="."]
 
+editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 317.121, -9.95772 )
@@ -132,27 +157,6 @@ transform/pos = Vector2( 318.885, 186.772 )
 transform/pos = Vector2( 320, 200 )
 texture = ExtResource( 7 )
 
-[node name="camera" type="Camera2D" parent="."]
-
-visibility/behind_parent = true
-transform/pos = Vector2( 321, 200 )
-anchor_mode = 1
-rotating = false
-current = true
-zoom = Vector2( 1, 1 )
-limit/left = -10000000
-limit/top = -10000000
-limit/right = 10000000
-limit/bottom = 10000000
-drag_margin/h_enabled = true
-drag_margin/v_enabled = true
-smoothing/enable = false
-smoothing/speed = 5.0
-drag_margin/left = 0.2
-drag_margin/top = 0.2
-drag_margin/right = 0.2
-drag_margin/bottom = 0.2
-
 [node name="rumble_timer" type="Timer" parent="."]
 
 process_mode = 1
@@ -162,6 +166,19 @@ autostart = false
 
 [node name="explosion_container" type="Node" parent="."]
 
+[node name="power_up_container" type="Node" parent="."]
+
+[node name="power_up_spawn_timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[node name="shield_container" type="Node" parent="."]
+
 [connection signal="timeout" from="rumble_timer" to="." method="_on_rumble_timer_timeout"]
+
+[connection signal="timeout" from="power_up_spawn_timer" to="." method="_on_timer_timeout"]
 
 
