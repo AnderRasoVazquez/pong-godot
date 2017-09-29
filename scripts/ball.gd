@@ -8,6 +8,7 @@ var acc = 2
 var bounce_coefficent = 1.0
 
 signal ball_collision
+signal collision_with_paddle
 
 func _ready():
 	randomize()
@@ -21,6 +22,7 @@ func _fixed_process(delta):
 		emit_signal("ball_collision")
 		if get_collider().is_in_group("platform"):
 			vel += vel * acc * delta
+			emit_signal("collision_with_paddle")
 		# find the normal
 		var n = get_collision_normal()
 		# reflect the motion *and* the velocity
