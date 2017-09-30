@@ -1,11 +1,9 @@
-extends KinematicBody2D
+extends RigidBody2D
 
-var speed = 100
-const INITIAL_SPEED = 100
-var vel = Vector2() # pixels/sec
-var acc = 3
-# set this to < 1.0 to demonstrate loss of energy
-var bounce_coefficent = 1
+var speed = 400
+const INITIAL_SPEED = 150
+const MAX_SPEED = 300
+const ACC = 1.1
 var who_hits = "left"
 
 signal ball_collision
@@ -18,21 +16,21 @@ func _ready():
 
 func _fixed_process(delta):
 	# move the body
-	var motion = move(vel * delta)
-	if is_colliding():
+	var bodies = get_colliding_bodies()
+
+	for body in bodies:
 		emit_signal("ball_collision")
-		if get_collider().is_in_group("platform"):
-			vel += vel * acc * delta
+		if body.is_in_group("platform"):
+			#vel += vel * acc * delta
 			emit_signal("collision_with_paddle")
-			who_hits = get_collider().get_name()
-		# find the normal
-		var n = get_collision_normal()
-		# reflect the motion *and* the velocity
-		motion = n.reflect(motion)
-		vel = n.reflect(vel) * bounce_coefficent
-		# remember to also move the resulting motion amount
-		move(motion)
+			who_hits = body.get_name()
+			var speed = get_linear_velocity().length()
+			var direction = get_pos() - body.get_node("ancor").get_global_pos()
+			var velocity = direction.normalized() * max(INITIAL_SPEED, min(speed * ACC, MAX_SPEED * ACC))
+			set_linear_velocity(velocity)
+	print(get_linear_velocity())
 
 func restart_speed():
-	var dir = [-1.5, 1.5]
-	vel = Vector2(dir[rand_range(0,2)], 0) * INITIAL_SPEED
+	var alter_dir = randi() % 2 == 0
+	var dir = 1 if not alter_dir else -1
+	set_linear_velocity(Vector2(150 * dir, 0))

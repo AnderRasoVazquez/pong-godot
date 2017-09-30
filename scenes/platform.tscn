@@ -4,11 +4,10 @@
 [ext_resource path="res://art/left_pallete.png" type="Texture" id=2]
 [ext_resource path="res://art/sheet.beam0.atex" type="Texture" id=3]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
-radius = 4.90917
-height = 26.3886
+extents = Vector2( 4.64119, 18.3903 )
 
 [sub_resource type="Animation" id=2]
 
@@ -31,7 +30,7 @@ tracks/0/keys = {
 
 transform/pos = Vector2( 67, 183 )
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -74,7 +73,7 @@ texture = ExtResource( 2 )
 
 [node name="collision" type="CollisionShape2D" parent="."]
 
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
@@ -93,7 +92,7 @@ transform/scale = Vector2( 2, 2 )
 [node name="grow_effect" type="Tween" parent="."]
 
 playback/process_mode = 1
-playback/active = true
+playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
@@ -116,6 +115,10 @@ process_mode = 1
 wait_time = 5.0
 one_shot = true
 autostart = false
+
+[node name="ancor" type="Position2D" parent="."]
+
+transform/pos = Vector2( -8, 0 )
 
 [connection signal="timeout" from="confuse_timer" to="." method="_on_confuse_timer_timeout"]
 
