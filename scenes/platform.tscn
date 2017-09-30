@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
-[ext_resource path="res://scripts/right.gd" type="Script" id=1]
-[ext_resource path="res://art/right_pallete.png" type="Texture" id=2]
+[ext_resource path="res://scripts/platform.gd" type="Script" id=1]
+[ext_resource path="res://art/left_pallete.png" type="Texture" id=2]
+[ext_resource path="res://art/sheet.beam0.atex" type="Texture" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
 
 custom_solver_bias = 0.0
-radius = 4.89478
-height = 25.7699
+radius = 4.90917
+height = 26.3886
 
 [sub_resource type="Animation" id=2]
 
@@ -16,19 +17,19 @@ length = 0.25
 loop = true
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:modulate")
+tracks/0/path = NodePath("sprite:visibility/opacity")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
 "times": FloatArray( 0, 0.04, 0.08 ),
 "transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 0, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ 1.0, 0.5, 1.0 ]
 }
 
-[node name="right" type="KinematicBody2D"]
+[node name="platform" type="KinematicBody2D"]
 
-transform/pos = Vector2( 577, 187 )
+transform/pos = Vector2( 67, 183 )
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -37,8 +38,14 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
+texture = "res://art/left_pallete.png"
+move_up = "left_move_up"
+move_down = "left_move_down"
+shoot = "left_shoot"
+run = "run"
+flip_h = false
 
-[node name="particles_right" type="Particles2D" parent="."]
+[node name="particles" type="Particles2D" parent="."]
 
 config/amount = 20
 config/lifetime = 0.4
@@ -60,7 +67,6 @@ params/final_size = 1.0
 params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
-color/color = Color( 1, 0, 0.84375, 1 )
 
 [node name="sprite" type="Sprite" parent="."]
 
@@ -68,17 +74,30 @@ texture = ExtResource( 2 )
 
 [node name="collision" type="CollisionShape2D" parent="."]
 
-visibility/visible = false
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="confuse_timer" type="Timer" parent="."]
+[node name="gun" type="Sprite" parent="."]
 
-process_mode = 1
-wait_time = 5.0
-one_shot = true
-autostart = false
+visibility/visible = false
+transform/pos = Vector2( 5, 0 )
+transform/scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="muzzle" type="Position2D" parent="gun"]
+
+transform/pos = Vector2( 66, 0 )
+transform/scale = Vector2( 2, 2 )
+
+[node name="grow_effect" type="Tween" parent="."]
+
+playback/process_mode = 1
+playback/active = true
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="bullet_container" type="Node" parent="."]
 
 [node name="anim" type="AnimationPlayer" parent="."]
 
@@ -86,11 +105,17 @@ playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/confused = SubResource( 2 )
-next/confused = "confused"
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="confuse_timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 5.0
+one_shot = true
+autostart = false
 
 [connection signal="timeout" from="confuse_timer" to="." method="_on_confuse_timer_timeout"]
 

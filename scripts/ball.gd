@@ -3,7 +3,7 @@ extends KinematicBody2D
 var speed = 100
 const INITIAL_SPEED = 100
 var vel = Vector2() # pixels/sec
-var acc = 2
+var acc = 3
 # set this to < 1.0 to demonstrate loss of energy
 var bounce_coefficent = 1
 var who_hits = "left"

@@ -16,13 +16,6 @@ onready var separator = get_node("separator")
 onready var explosion = preload("res://scenes/explosion.tscn")
 onready var power_up = preload("res://scenes/power_up.tscn")
 onready var power_up_spawn_timer = get_node("power_up_spawn_timer")
-onready var shield = preload("res://scenes/shield.tscn")
-
-# POWER UP
-# que aparezcan y el que las de que las gane
-# alargar pala
-# escudo para no perder
-# misil que revienta la pala del otro
 
 var screen_size
 var score_left = 0
@@ -31,6 +24,7 @@ var shake_amount = 1.0
 var rumble = 1
 var activate_rumble = false
 
+
 func _ready():
 	randomize()
 	power_up_spawn_timer.set_wait_time(rand_range(5, 10))
@@ -38,12 +32,11 @@ func _ready():
 	ball.connect("ball_collision", self, "_on_ball_collision")
 	ball.connect("collision_with_paddle", self, "_on_collision_with_paddle")
 	screen_size = get_viewport_rect().size
+	camera.set_pos(screen_size / 2)
 	separator.set_pos(screen_size / 2)
 	ball.set_pos(screen_size / 2)
 	left.set_pos(Vector2(screen_size.width * 0.10, screen_size.height * 0.5))
 	right.set_pos(Vector2(screen_size.width * 0.90, screen_size.height * 0.5))
-	label_left.set_pos(Vector2(screen_size.width * 0.25, 50))
-	label_right.set_pos(Vector2(screen_size.width * 0.75, 50))
 	set_process(true)
 
 func _process(delta):
@@ -73,13 +66,12 @@ func rumble(rumble):
 
 func _on_rumble_timer_timeout():
 	activate_rumble = false
+	camera.set_offset(Vector2(0, 0))
 
 func _on_ball_collision():
 	var e = explosion.instance()
 	explosion_container.add_child(e)
 	e.set_global_pos(ball.get_pos())
-
-
 	activate_rumble = true
 	rumble_timer.start()
 	rumble *= 1.1
@@ -104,18 +96,6 @@ func _on_timer_timeout():
 	power_up_spawn_timer.set_wait_time(rand_range(20, 40))
 	power_up_spawn_timer.start()
 
-func _on_power_up_catched():
-	# TODO hacer un strategy, este codigo no tiene que estar aqui
-	# power_up use power
-	print("building shield")
-	var s = shield.instance()
-	shield_container.add_child(s)
-	if ball.who_hits == "left":
-		s.set_pos(Vector2(screen_size.x * 0.05, screen_size.y / 2))
-	else:
-		s.set_pos(Vector2(screen_size.x * 0.95, screen_size.y / 2))
-	s.connect("shield_hit", self, "_on_shield_hit")
+func _on_power_up_catched(type):
+	power_up_container.execute(type)
 
-func _on_shield_hit():
-	print("shield_hit signal catched")
-	ball.vel.x *= -1

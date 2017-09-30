@@ -10,8 +10,8 @@ radius = 4.64157
 
 [sub_resource type="ColorRamp" id=2]
 
-offsets = FloatArray( 0, 0.175781, 0.453125, 1 )
-colors = ColorArray( 1, 1, 1, 1, 1, 0.585938, 0, 1, 1, 0.830831, 0.430168, 1, 1, 0.902147, 0.670391, 0.595725 )
+offsets = FloatArray( 0, 0.175781, 0.542969, 1 )
+colors = ColorArray( 1, 1, 1, 1, 1, 0.9375, 0, 1, 1, 0.539062, 0, 1, 0.273438, 0.19226, 0, 1 )
 
 [node name="ball" type="KinematicBody2D"]
 
@@ -58,30 +58,5 @@ params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 color/color_ramp = SubResource( 2 )
-
-[node name="trail1" type="Particles2D" parent="."]
-
-visibility/visible = false
-config/amount = 100
-config/lifetime = 0.5
-config/process_mode = 1
-config/half_extents = Vector2( 3, 3 )
-config/local_space = false
-params/direction = 0.0
-params/spread = 20.0
-params/linear_velocity = 0.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 0.0
-params/gravity_strength = 0.0
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 0.0
-params/initial_angle = 0.0
-params/initial_size = 2.0
-params/final_size = 0.0
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
 
 

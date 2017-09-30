@@ -10,6 +10,7 @@ func _ready():
 
 func _on_shield_body_enter( body ):
 	print("shield hit")
+	print(body.get_name())
 	emit_signal("shield_hit")
 	clear_shapes()
 	queue_free()

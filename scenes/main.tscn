@@ -4,37 +4,40 @@
 [ext_resource path="res://art/starfield.png" type="Texture" id=2]
 [ext_resource path="res://fonts/KenVector Future.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://scenes/ball.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/left.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/right.tscn" type="PackedScene" id=6]
-[ext_resource path="res://art/separator.png" type="Texture" id=7]
+[ext_resource path="res://scenes/platform.tscn" type="PackedScene" id=5]
+[ext_resource path="res://art/separator.png" type="Texture" id=6]
+[ext_resource path="res://scripts/power_up_container.gd" type="Script" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+
+font/size = 70
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=2]
 
-font/size = 16
+font/size = 70
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=3]
-
-font/size = 16
-font/use_mipmaps = false
-font/use_filter = false
-font/font = ExtResource( 3 )
-
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
-extents = Vector2( 324.601, 10 )
+extents = Vector2( 269.508, 10 )
 
 [node name="main" type="Node2D"]
 
 script/script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="camera" type="Camera2D" parent="."]
 
 visibility/behind_parent = true
-transform/pos = Vector2( 320.943, 197.138 )
+transform/pos = Vector2( 319.943, 200.138 )
 z/z = 1
 anchor_mode = 1
 rotating = false
@@ -72,31 +75,38 @@ margin/bottom = 40.0
 
 [node name="left_score" type="Label" parent="HUD"]
 
+visibility/opacity = 0.1
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 142.0
-margin/top = 31.0
-margin/right = 182.0
-margin/bottom = 45.0
-custom_fonts/font = SubResource( 2 )
+margin/left = -178.0
+margin/top = -140.0
+margin/right = -299.0
+margin/bottom = -220.0
+custom_fonts/font = SubResource( 1 )
 text = "0"
+align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
 [node name="right_score" type="Label" parent="HUD"]
 
+visibility/opacity = 0.1
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 487.0
-margin/top = 32.0
-margin/right = 527.0
-margin/bottom = 46.0
-custom_fonts/font = SubResource( 3 )
+margin/left = 335.0
+margin/top = 160.0
+margin/right = 455.0
+margin/bottom = 240.0
+custom_fonts/font = SubResource( 2 )
 text = "0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -104,10 +114,10 @@ max_lines_visible = -1
 
 [node name="wall_down" type="StaticBody2D" parent="."]
 
-editor/display_folded = true
+transform/pos = Vector2( 314, 412 )
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 317.445, 409.823 )
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -115,20 +125,22 @@ constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="wall_down"]
 
-transform/pos = Vector2( 317.445, 409.823 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="wall_up" type="StaticBody2D" parent="."]
 
-editor/display_folded = true
+transform/pos = Vector2( 316, -9 )
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 317.121, -9.95772 )
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -136,11 +148,13 @@ constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="wall_up"]
 
-transform/pos = Vector2( 317.121, -9.95772 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
@@ -150,12 +164,24 @@ transform/pos = Vector2( 318.885, 186.772 )
 
 [node name="left" parent="." instance=ExtResource( 5 )]
 
-[node name="right" parent="." instance=ExtResource( 6 )]
+run = "left_run"
+
+[node name="right" parent="." instance=ExtResource( 5 )]
+
+transform/pos = Vector2( 560, 183 )
+texture = "res://art/right_pallete.png"
+move_up = "right_move_up"
+move_down = "right_move_down"
+shoot = "right_shoot"
+run = "right_run"
+flip_h = true
 
 [node name="separator" type="Sprite" parent="."]
 
+visibility/self_opacity = 0.2
 transform/pos = Vector2( 320, 200 )
-texture = ExtResource( 7 )
+transform/scale = Vector2( 1, 0.3 )
+texture = ExtResource( 6 )
 
 [node name="rumble_timer" type="Timer" parent="."]
 
@@ -166,7 +192,23 @@ autostart = false
 
 [node name="explosion_container" type="Node" parent="."]
 
-[node name="power_up_container" type="Node" parent="."]
+[node name="power_up_container" type="Node2D" parent="."]
+
+script/script = ExtResource( 7 )
+
+[node name="grow_timer_left" type="Timer" parent="power_up_container"]
+
+process_mode = 1
+wait_time = 5.0
+one_shot = true
+autostart = false
+
+[node name="grow_timer_right" type="Timer" parent="power_up_container"]
+
+process_mode = 1
+wait_time = 5.0
+one_shot = true
+autostart = false
 
 [node name="power_up_spawn_timer" type="Timer" parent="."]
 
@@ -178,6 +220,10 @@ autostart = true
 [node name="shield_container" type="Node" parent="."]
 
 [connection signal="timeout" from="rumble_timer" to="." method="_on_rumble_timer_timeout"]
+
+[connection signal="timeout" from="power_up_container/grow_timer_left" to="power_up_container" method="_on_grow_timer_left_timeout"]
+
+[connection signal="timeout" from="power_up_container/grow_timer_right" to="power_up_container" method="_on_grow_timer_right_timeout"]
 
 [connection signal="timeout" from="power_up_spawn_timer" to="." method="_on_timer_timeout"]
 
