@@ -1,5 +1,4 @@
-extends Node
-
+extends Node2D
 
 var left_shielded = false
 var right_shielded = false
@@ -27,27 +26,29 @@ func shield_strategy():
 	print("shield strategy called")
 	if ball.who_hits == "left" and not left_shielded:
 		left_shielded = true
-		build_shield(screen_size.x * 0.05)
+		build_shield(screen_size.x * 0.02, "left")
 	elif ball.who_hits == "right" and not right_shielded:
-		right_shielded = false
-		build_shield(screen_size.x * 0.95)
+		right_shielded = true
+		build_shield(screen_size.x * 0.98, "right")
 	else:
 		print("already has shield")
 
-func build_shield(pos_x):
+func build_shield(pos_x, owner):
 	print("building shield")
 	var s = shield.instance()
+	s.owner = owner
 	add_child(s)
-	s.connect("shield_hit", self, "_on_shield_hit")
 	s.set_global_pos(Vector2(pos_x, s.get_pos().y))
 
-func _on_shield_hit():
+func _on_shield_hit(owner):
+	get_node("../sound_effects").play("shield_down")
 	print("shield_hit signal catched")
-	if ball.vel.x > 0:
+	if owner == "right":
+		print("right shield destroyed")
 		right_shielded = false
 	else:
+		print("right shield destroyed")
 		left_shielded = false
-	ball.vel.x *= -1
 
 func grow_strategy():
 	print("grow strategy called")
@@ -55,18 +56,17 @@ func grow_strategy():
 		left.grow()
 		grow_timer_left.start()
 	elif ball.who_hits == "right":
-		right.set_scale(Vector2(1, 3))
+		right.grow()
 		grow_timer_right.start()
 
 func _on_grow_timer_left_timeout():
 	left.normal_size()
 
 func _on_grow_timer_right_timeout():
-	print("grow left stop")
-	right.set_scale(Vector2(1, 1))
+	right.normal_size()
 
 func missil_strategy():
-	print("not implemented yet")
+	print("missil strategy called")
 	if ball.who_hits == "left":
 		left.bullets += 1
 	elif ball.who_hits == "right":

@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://scripts/platform.gd" type="Script" id=1]
 [ext_resource path="res://art/left_pallete.png" type="Texture" id=2]
 [ext_resource path="res://art/sheet.beam0.atex" type="Texture" id=3]
+[ext_resource path="res://audio/laser1.wav" type="Sample" id=4]
+[ext_resource path="res://audio/shield_down.wav" type="Sample" id=5]
 
 [sub_resource type="RectangleShape2D" id=3]
 
@@ -26,6 +28,21 @@ tracks/0/keys = {
 "values": [ 1.0, 0.5, 1.0 ]
 }
 
+[sub_resource type="SampleLibrary" id=4]
+
+samples/laser1 = {
+"db": -10.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 4 )
+}
+samples/shield_down = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 5 )
+}
+
 [node name="platform" type="KinematicBody2D"]
 
 transform/pos = Vector2( 67, 183 )
@@ -43,6 +60,7 @@ move_down = "left_move_down"
 shoot = "left_shoot"
 run = "run"
 flip_h = false
+particle_color = Color( 0, 1, 0.93, 1 )
 
 [node name="particles" type="Particles2D" parent="."]
 
@@ -67,15 +85,15 @@ params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 
-[node name="sprite" type="Sprite" parent="."]
-
-texture = ExtResource( 2 )
-
 [node name="collision" type="CollisionShape2D" parent="."]
 
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
+
+[node name="sprite" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
 
 [node name="gun" type="Sprite" parent="."]
 
@@ -118,7 +136,24 @@ autostart = false
 
 [node name="ancor" type="Position2D" parent="."]
 
-transform/pos = Vector2( -8, 0 )
+transform/pos = Vector2( -14, 0 )
+
+[node name="sound_effects" type="SamplePlayer" parent="."]
+
+config/polyphony = 1
+config/samples = SubResource( 4 )
+default/volume_db = 0.0
+default/pitch_scale = 1.0
+default/pan = 0.0
+default/depth = 0.0
+default/height = 0.0
+default/filter/type = 0
+default/filter/cutoff = 5000.0
+default/filter/resonance = 1.0
+default/filter/gain = 1.0
+default/reverb_room = 2
+default/reverb_send = 0.0
+default/chorus_send = 0.0
 
 [connection signal="timeout" from="confuse_timer" to="." method="_on_confuse_timer_timeout"]
 

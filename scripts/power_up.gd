@@ -7,9 +7,7 @@ onready var effect = get_node("effect")
 onready var sprite = get_node("sprite")
 var type
 
-# diferentes power ups
-#var types = ['shield', 'grow', 'missil']
-var types = ['grow']
+var types = ['shield', 'grow', 'missil']
 var type_texture = {'shield': 'res://art/sheet.powerupBlue_shield.atex',
 				'grow': 'res://art/sheet.powerupGreen_star.atex',
 				'missil': 'res://art/sheet.powerupRed_bolt.atex'

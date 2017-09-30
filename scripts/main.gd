@@ -27,14 +27,17 @@ var activate_rumble = false
 
 func _ready():
 	randomize()
-	power_up_spawn_timer.set_wait_time(rand_range(5, 10))
-	power_up_spawn_timer.start()
+	get_node("music").play()
+	set_power_up_spawn_timer()
 	ball.connect("ball_collision", self, "_on_ball_collision")
 	ball.connect("collision_with_paddle", self, "_on_collision_with_paddle")
+	ball.connect("shield_hit", power_up_container, "_on_shield_hit")
 	screen_size = get_viewport_rect().size
 	camera.set_pos(screen_size / 2)
 	separator.set_pos(screen_size / 2)
 	ball.set_pos(screen_size / 2)
+	left.connect("shield_hit_by_shoot", power_up_container, "_on_shield_hit")
+	right.connect("shield_hit_by_shoot", power_up_container, "_on_shield_hit")
 	left.set_pos(Vector2(screen_size.width * 0.10, screen_size.height * 0.5))
 	right.set_pos(Vector2(screen_size.width * 0.90, screen_size.height * 0.5))
 	set_process(true)
@@ -46,7 +49,7 @@ func _process(delta):
 	var ball_pos = ball.get_pos()
 #
 	# Check gameover
-	if (ball_pos.x < 0 or ball_pos.x > screen_size.x): # TODO dividirlo para hacer un score
+	if (ball_pos.x < 0 or ball_pos.x > screen_size.x):
 		if (ball_pos.x < 0):
 			score_right += 1
 		if (ball_pos.x > screen_size.x):
@@ -69,6 +72,7 @@ func _on_rumble_timer_timeout():
 	camera.set_offset(Vector2(0, 0))
 
 func _on_ball_collision():
+	get_node("sound_effects").play("expl1")
 	var e = explosion.instance()
 	explosion_container.add_child(e)
 	e.set_global_pos(ball.get_pos())
@@ -79,6 +83,8 @@ func _on_ball_collision():
 		rumble = 5
 
 func _on_collision_with_paddle():
+	left.set_pos(Vector2(screen_size.width * 0.10, left.get_pos().y))
+	right.set_pos(Vector2(screen_size.width * 0.90, right.get_pos().y))
 	var sup_lab = support_label.instance()
 	HUD.add_child(sup_lab)
 	var ball_pos = ball.get_global_pos()
@@ -93,9 +99,12 @@ func _on_timer_timeout():
 	power_up_container.add_child(p)
 	p.set_pos(Vector2(rand_range(screen_size.x * 0.3, screen_size.x * 0.7),
 						rand_range(screen_size.y * 0.3, screen_size.y * 0.7)))
-	power_up_spawn_timer.set_wait_time(rand_range(20, 40))
-	power_up_spawn_timer.start()
+	set_power_up_spawn_timer()
 
 func _on_power_up_catched(type):
+	get_node("sound_effects").play("shield_up")
 	power_up_container.execute(type)
 
+func set_power_up_spawn_timer():
+	power_up_spawn_timer.set_wait_time(rand_range(5, 10))
+	power_up_spawn_timer.start()

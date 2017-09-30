@@ -1,16 +1,6 @@
-extends Area2D
+extends StaticBody2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-signal shield_hit
+var owner
 
 func _ready():
-	pass
-
-func _on_shield_body_enter( body ):
-	print("shield hit")
-	print(body.get_name())
-	emit_signal("shield_hit")
-	clear_shapes()
-	queue_free()
+	add_to_group("shield")
