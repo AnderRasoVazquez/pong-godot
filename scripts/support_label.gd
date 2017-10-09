@@ -1,7 +1,7 @@
 extends Label
 
 
-var text_opt = ["GREAT", "AWESOME", "NICE", "COOL", "YEAH", "LUCKY", "WOW", "EASY"]
+var text_opt = ["GREAT", "AWESOME", "NICE", "COOL", "YEAH", "LUCKY", "WOW", "EASY", "TASTY"]
 onready var effect = get_node("effect")
 
 func _ready():
