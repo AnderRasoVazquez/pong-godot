@@ -2,7 +2,7 @@ extends RigidBody2D
 
 var speed = 400
 const INITIAL_SPEED = 200
-const MAX_SPEED = 500
+const MAX_SPEED = 1000
 const ACC = 1.1
 var who_hits = "left"
 
