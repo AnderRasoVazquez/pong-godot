@@ -6,7 +6,7 @@
 [ext_resource path="res://audio/laser1.wav" type="Sample" id=4]
 [ext_resource path="res://audio/shield_down.wav" type="Sample" id=5]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 4.64119, 18.3903 )
@@ -28,7 +28,7 @@ tracks/0/keys = {
 "values": [ 1.0, 0.5, 1.0 ]
 }
 
-[sub_resource type="SampleLibrary" id=4]
+[sub_resource type="SampleLibrary" id=3]
 
 samples/laser1 = {
 "db": -10.0,
@@ -47,7 +47,7 @@ samples/shield_down = {
 
 transform/pos = Vector2( 67, 183 )
 input/pickable = false
-shapes/0/shape = SubResource( 3 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -87,7 +87,7 @@ params/anim_initial_pos = 0.0
 
 [node name="collision" type="CollisionShape2D" parent="."]
 
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -141,7 +141,7 @@ transform/pos = Vector2( -14, 0 )
 [node name="sound_effects" type="SamplePlayer" parent="."]
 
 config/polyphony = 1
-config/samples = SubResource( 4 )
+config/samples = SubResource( 3 )
 default/volume_db = 0.0
 default/pitch_scale = 1.0
 default/pan = 0.0
