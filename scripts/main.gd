@@ -41,6 +41,15 @@ func _ready():
 	left.set_pos(Vector2(screen_size.width * 0.10, screen_size.height * 0.5))
 	right.set_pos(Vector2(screen_size.width * 0.90, screen_size.height * 0.5))
 	set_process(true)
+	set_process_input(true)
+
+func _input(event):
+	if event.is_action_pressed("restart"):
+		restart()
+
+func restart():
+	score_left = 0
+	score_right = 0
 
 func _process(delta):
 	label_right.set_text(str(score_right))
