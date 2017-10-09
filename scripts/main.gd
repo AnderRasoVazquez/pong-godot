@@ -89,9 +89,10 @@ func _on_collision_with_paddle():
 	HUD.add_child(sup_lab)
 	var ball_pos = ball.get_global_pos()
 	if ball_pos.x <= screen_size.x / 2:
-		sup_lab.set_global_pos(Vector2(ball_pos.x, ball_pos.y))
+		# sup_lab.set_global_pos(Vector2(ball_pos.x, ball_pos.y))
+		sup_lab.set_global_pos(left.get_node("gun/muzzle").get_global_pos())
 	else:
-		sup_lab.set_global_pos(Vector2(ball_pos.x * 0.9, ball_pos.y))
+		sup_lab.set_global_pos(right.get_node("gun/muzzle").get_global_pos())
 
 func _on_timer_timeout():
 	var p = power_up.instance()
